@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- XDI FILTER -->
+
+	<bean id="EndpointFilter" class="xdi2.server.EndpointFilter">
+		<property name="endpointServlet" ref="EndpointServlet" />
+	</bean>
+
+	<!-- XDI SERVLET -->
+
+	<bean id="EndpointServlet" class="xdi2.server.EndpointServlet" init-method="init" destroy-method="destroy">
+		<property name="interceptors">
+			<util:list>
+				<bean class="xdi2.server.interceptor.impl.DebugEndpointServletInterceptor" />
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- TEMPLATE CONNECTOR SERVLET -->
+
+	<bean id="ConnectServlet" class="xdi2.connector.template.ConnectServlet" init-method="init" destroy-method="destroy">
+		<property name="graph" ref="graph1" />
+		<property name="yourApi" ref="yourApi" />
+	</bean>
+
+	<bean name="yourApi" class="xdi2.connector.template.api.YourApi" init-method="init" destroy-method="destroy">
+		<property name="appId" value="..." />
+		<property name="appSecret" value="..." />
+	</bean>
+
+	<!-- MESSAGING TARGET at /template -->
+	<!-- MessagingTarget: GraphMessagingTarget backed by a MemoryGraph -->
+
+	<bean id="graphfactory1" class="xdi2.core.impl.memory.MemoryGraphFactory">
+	</bean>
+
+	<bean id="graph1" factory-bean="graphfactory1" factory-method="openGraph" />
+
+	<bean name="templateContributor" class="xdi2.connector.template.contributor.TemplateContributor">
+		<property name="graph" ref="graph1" />
+		<property name="templateApi" ref="templateApi" />
+	</bean>
+
+	<bean name="/template" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
+		<property name="graph" ref="graph1" />
+		<property name="interceptors">
+			<util:list>
+				<bean class="xdi2.messaging.target.interceptor.impl.BootstrapInterceptor">
+					<property name="bootstrapOwner" value="=!1111" />
+					<property name="bootstrapSharedSecret" value="s3cret" />
+					<property name="bootstrapLinkContract" value="true" />
+				</bean>
+				<bean class="xdi2.messaging.target.interceptor.impl.VariablesInterceptor" />
+				<bean class="xdi2.messaging.target.interceptor.impl.ExpandDollarIsInterceptor" />
+				<bean class="xdi2.messaging.target.interceptor.impl.CheckOwnerInterceptor" />
+				<ref bean="templateContributor" />
+			</util:list>
+		</property>
+		<property name="contributors">
+			<util:map>
+				<entry key="(https://yoursite.com)" value-ref="templateContributor" />
+			</util:map>
+		</property>
+	</bean>
+
+</beans>
