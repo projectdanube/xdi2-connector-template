@@ -29,8 +29,8 @@
 
 	<p class="subheader">Obtain Template API Access Token</p>
 
-	<p>This step will initiate an OAuth "code flow" (also known as "server-side flow") to the Template API, in order to obtain an access token.</p>
-	<p>The token is then stored in your XDI graph, where it is picked up and used by the XDI2 server to handle requests to your Template XDI context.</p>
+	<p>This step will initiate an OAuth "code flow" (also known as "server-side flow") to an external data source, in order to obtain an access token.</p>
+	<p>The token is then stored in your XDI graph, where it is picked up and used by the XDI2 server to handle requests to your external data source.</p>
 
 	<form action="connect" method="get">
 
