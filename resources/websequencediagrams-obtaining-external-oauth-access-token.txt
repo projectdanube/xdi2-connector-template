@@ -1,26 +1,26 @@
-title Obtaining Remote OAuth Access Token
+title Obtaining External OAuth Access Token
 
 participant "User's Browser"
 participant "XDI2 Web Interface"
-participant "Remote OAuth Service"
+participant "External OAuth Service"
 participant "XDI2 Server"
 User's Browser->XDI2 Web Interface: Open Web Interface
 activate "XDI2 Web Interface"
 note right of "XDI2 Web Interface": User wishes to\nassociate XDI2 Server\nwith remote account
 XDI2 Web Interface->User's Browser: Redirect to Authorization Endpoint URL (with client_id and scope)
 deactivate "XDI2 Web Interface"
-User's Browser->Remote OAuth Service: Open Authorization Endpoint URL (with client_id and scope)
-activate "Remote OAuth Service"
-note right of "Remote OAuth Service": User reviews and\napproves permissions.
-note right of "Remote OAuth Service": OAuth authorization\ncode is issued.
-Remote OAuth Service->User's Browser: Redirect to Callback URL (with authorization code)
-deactivate "Remote OAuth Service"
+User's Browser->External OAuth Service: Open Authorization Endpoint URL (with client_id and scope)
+activate "External OAuth Service"
+note right of "External OAuth Service": User reviews and\napproves permissions.
+note right of "External OAuth Service": OAuth authorization\ncode is issued.
+External OAuth Service->User's Browser: Redirect to Callback URL (with authorization code)
+deactivate "External OAuth Service"
 User's Browser->XDI2 Web Interface: Open Callback URL (with authorization code)
-XDI2 Web Interface->Remote OAuth Service: POST to Token Endpoint URL
-activate "Remote OAuth Service"
-note right of "Remote OAuth Service": OAuth access token\nis issued.
-Remote OAuth Service->XDI2 Web Interface: POST Response (with access token)
-deactivate "Remote OAuth Service"
+XDI2 Web Interface->External OAuth Service: POST to Token Endpoint URL
+activate "External OAuth Service"
+note right of "External OAuth Service": OAuth access token\nis issued.
+External OAuth Service->XDI2 Web Interface: POST Response (with access token)
+deactivate "External OAuth Service"
 XDI2 Web Interface->XDI2 Server: XDI $add Request to store access token
 activate "XDI2 Server"
 note right of "XDI2 Server": OAuth access token\nis stored in user's graph.
