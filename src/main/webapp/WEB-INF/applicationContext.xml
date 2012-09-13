@@ -23,10 +23,10 @@
 
 	<bean id="ConnectServlet" class="xdi2.connector.template.ConnectServlet" init-method="init" destroy-method="destroy">
 		<property name="graph" ref="graph1" />
-		<property name="yourApi" ref="yourApi" />
+		<property name="templateApi" ref="templateApi" />
 	</bean>
 
-	<bean name="yourApi" class="xdi2.connector.template.api.YourApi" init-method="init" destroy-method="destroy">
+	<bean name="templateApi" class="xdi2.connector.template.api.TemplateApi" init-method="init" destroy-method="destroy">
 		<property name="appId" value="..." />
 		<property name="appSecret" value="..." />
 	</bean>

@@ -28,7 +28,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 
 		super();
 
-		this.getContributors().addContributor(new YourUserContributor());
+		this.getContributors().addContributor(new TemplateUserContributor());
 	}
 
 	/*
@@ -59,20 +59,20 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 	 */
 
 	@ContributorCall(addresses={"($)"})
-	private class YourUserContributor extends AbstractContributor {
+	private class TemplateUserContributor extends AbstractContributor {
 
-		private YourUserContributor() {
+		private TemplateUserContributor() {
 
 			super();
 
-			this.getContributors().addContributor(new FacebookUserAttributeContributor());
+			this.getContributors().addContributor(new TemplateUserAttributeContributor());
 		}
 	}
 
 	@ContributorCall(addresses={"$!(gender)","$!(last_name)","$!(first_name)","$!(email)"})
-	private class FacebookUserAttributeContributor extends AbstractContributor {
+	private class TemplateUserAttributeContributor extends AbstractContributor {
 
-		private FacebookUserAttributeContributor() {
+		private TemplateUserAttributeContributor() {
 
 			super();
 		}

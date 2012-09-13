@@ -90,7 +90,7 @@ public class ConnectServlet extends HttpServlet implements HttpRequestHandler {
 
 		log.debug("Incoming GET request to " + request.getRequestURL() + ". Content-Type: " + request.getContentType() + ", Content-Length: " + request.getContentLength());
 
-		// redirect to Facebook?
+		// redirect to external data source?
 
 		if (request.getParameter("startoauth") != null) {
 
@@ -104,7 +104,7 @@ public class ConnectServlet extends HttpServlet implements HttpRequestHandler {
 			}
 		}
 
-		// error from Facebook?
+		// error from external data source?
 
 		if (request.getParameter("error") != null) {
 
@@ -112,10 +112,10 @@ public class ConnectServlet extends HttpServlet implements HttpRequestHandler {
 			if (errorDescription == null) errorDescription = request.getParameter("error_reason");
 			if (errorDescription == null) errorDescription = request.getParameter("error");
 
-			request.setAttribute("error", "Error from Facebook API: " + errorDescription);
+			request.setAttribute("error", "Error from External Data Source: " + errorDescription);
 		}
 
-		// callback from Facebook?
+		// callback from external data source?
 
 		if (request.getParameter("code") != null) {
 
@@ -141,7 +141,7 @@ public class ConnectServlet extends HttpServlet implements HttpRequestHandler {
 		request.setAttribute("input", sampleInput);
 		request.setAttribute("endpoint", request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/")) + sampleEndpoint);
 
-		request.getRequestDispatcher("/FacebookConnector.jsp").forward(request, response);
+		request.getRequestDispatcher("/TemplateConnector.jsp").forward(request, response);
 	}
 
 	@Override
