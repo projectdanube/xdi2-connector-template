@@ -74,6 +74,19 @@ public class TemplateApi {
 		return accessToken;
 	}
 
+	public void revokeAccessToken(String accessToken) throws IOException, JSONException {
+
+		if (accessToken == null) throw new NullPointerException();
+
+		log.debug("Revoking Access Token '" + accessToken + "'");
+
+		// TODO: here write code to revoke an access token
+
+		// done
+
+		log.debug("Access token revoked.");
+	}
+
 	public JSONObject getUser(String accessToken) throws IOException, JSONException {
 
 		if (accessToken == null) throw new NullPointerException();
