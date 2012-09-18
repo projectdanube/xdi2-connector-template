@@ -3,6 +3,8 @@
 
 This is a template for connector modules for the [XDI2](http://github.com/peacekeeper/xdi2) server.
 
+It can map personal data from an external data source to XDI. 
+
 ### Information
 
 * [Notes](https://github.com/peacekeeper/xdi2-connector-template/wiki/Notes)
@@ -11,7 +13,9 @@ This is a template for connector modules for the [XDI2](http://github.com/peacek
 
 ### How to build
 
-Just run
+First, you need to build the main [XDI2](http://github.com/peacekeeper/xdi2) project.
+
+After that, just run
 
     mvn clean install
 
