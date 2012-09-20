@@ -1,0 +1,8 @@
+(https://yoursite.com)+(+(name))/$is/+(+name)
+(https://yoursite.com)+(+(first_name))/$is/+(+first)+(+name)
+(https://yoursite.com)+(+(middle_name))/$is/+(+middle)+(+name)
+(https://yoursite.com)+(+(last_name))/$is/+(+last)+(+name)
+(https://yoursite.com)+(+(gender))/$is/+(+gender)
+(https://yoursite.com)+(+(locale))/$is/+(+locale)
+(https://yoursite.com)+(+(email))/$is/+(+email)
+(https://yoursite.com)+(+(website))/$is/+(+website)
