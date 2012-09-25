@@ -1,6 +1,7 @@
 package xdi2.connector.template.api;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,9 +49,9 @@ public class TemplateApi {
 		log.debug("Starting OAuth...");
 
 		StringBuffer location = new StringBuffer("https://www.yoursite.com/oauth/?");
-		location.append("client_id=" + clientId);
-		location.append("&redirect_uri=" + redirectUri);
-		location.append("&scope=" + scope);
+		location.append("client_id=" + URLEncoder.encode(clientId, "UTF-8"));
+		location.append("&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8"));
+		location.append("&scope=" + URLEncoder.encode(scope, "UTF-8"));
 
 		// done
 
