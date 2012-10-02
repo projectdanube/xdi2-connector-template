@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xdi2.connector.template.api.TemplateApi;
+import xdi2.connector.template.mapping.TemplateMapping;
 import xdi2.connector.template.util.GraphUtil;
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
@@ -21,8 +24,11 @@ import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 
 public class TemplateContributor extends AbstractContributor implements MessageEnvelopeInterceptor {
 
+	private static final Logger log = LoggerFactory.getLogger(TemplateContributor.class);
+
 	private Graph graph;
 	private TemplateApi templateApi;
+	private TemplateMapping templateMapping;
 
 	public TemplateContributor() {
 
@@ -69,7 +75,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 		}
 	}
 
-	@ContributorCall(addresses={"$!(gender)","$!(last_name)","$!(first_name)","$!(email)"})
+	@ContributorCall(addresses={"($)"})
 	private class TemplateUserAttributeContributor extends AbstractContributor {
 
 		private TemplateUserAttributeContributor() {
@@ -78,33 +84,42 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 		}
 
 		@Override
-		public boolean getContext(XRI3Segment contributorXri, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+		public boolean getContext(XRI3Segment[] contributorXris, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+
+			XRI3Segment templateContextXri = contributorXris[contributorXris.length - 3];
+			XRI3Segment userXri = contributorXris[contributorXris.length - 2];
+			XRI3Segment templateDataXri = contributorXris[contributorXris.length - 1];
+
+			log.debug("templateContextXri: " + templateContextXri + ", userXri: " + userXri + ", templateDataXri: " + templateDataXri);
+
+			// retrieve the yoursite.com value
 			
-			String contributorXriString = contributorXri.toString();
-			String literalData = null;
+			String templateValue = null;
 
 			try {
 
-				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getGraph());
+				String templateFieldIdentifier = TemplateContributor.this.templateMapping.templateDataXriToTemplateFieldIdentifier(templateDataXri);
+				if (templateFieldIdentifier == null) return false;
+
+				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
 				JSONObject user = TemplateContributor.this.retrieveUser(executionContext, accessToken);
 				if (user == null) throw new Exception("No user.");
+				if (! user.has(templateFieldIdentifier)) return false;
 
-				if (contributorXriString.equals("$!(first_name)")) literalData = user.getString("first_name");
-				else if (contributorXriString.equals("$!(last_name)")) literalData = user.getString("last_name");
-				else if (contributorXriString.equals("$!(gender)")) literalData = user.getString("gender");
-				else if (contributorXriString.equals("$!(email)")) literalData = user.getString("email");
-				else return false;
+				templateValue = user.getString(templateFieldIdentifier);
 			} catch (Exception ex) {
 
 				throw new Xdi2MessagingException("Cannot load user data: " + ex.getMessage(), ex, null);
 			}
 
-			if (literalData != null) {
+			// add the yoursite.com value to the response
+
+			if (templateValue != null) {
 
 				ContextNode contextNode = messageResult.getGraph().findContextNode(contextNodeXri, true);
-				contextNode.createLiteral(literalData);
+				contextNode.createLiteral(templateValue);
 			}
 
 			return true;
@@ -150,5 +165,15 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 	public void setTemplateApi(TemplateApi templateApi) {
 
 		this.templateApi = templateApi;
+	}
+
+	public TemplateMapping getTemplateMapping() {
+	
+		return this.templateMapping;
+	}
+
+	public void setTemplateMapping(TemplateMapping templateMapping) {
+	
+		this.templateMapping = templateMapping;
 	}
 }

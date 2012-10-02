@@ -26,11 +26,6 @@
 		<property name="templateApi" ref="templateApi" />
 	</bean>
 
-	<bean name="templateApi" class="xdi2.connector.template.api.TemplateApi" init-method="init" destroy-method="destroy">
-		<property name="appId" value="..." />
-		<property name="appSecret" value="..." />
-	</bean>
-
 	<!-- MESSAGING TARGET at /template -->
 	<!-- MessagingTarget: GraphMessagingTarget backed by a MemoryGraph -->
 
@@ -39,9 +34,23 @@
 
 	<bean id="graph1" factory-bean="graphfactory1" factory-method="openGraph" />
 
-	<bean name="templateContributor" class="xdi2.connector.template.contributor.TemplateContributor">
+	<bean id="templateContributor" class="xdi2.connector.template.contributor.TemplateContributor">
 		<property name="graph" ref="graph1" />
 		<property name="templateApi" ref="templateApi" />
+		<property name="templateMapping" ref="templateMapping" />
+	</bean>
+
+	<bean id="templateApi" class="xdi2.connector.template.api.TemplateApi" init-method="init" destroy-method="destroy">
+		<property name="appId" value="..." />
+		<property name="appSecret" value="..." />
+	</bean>
+
+	<bean id="templateMapping" class="xdi2.connector.template.mapping.TemplateMapping">
+		<property name="mappingGraph" ref="templateMappingGraph" />
+	</bean>
+
+	<bean id="templateMappingGraph" factory-bean="graphfactory1" factory-method="loadGraph">
+		<constructor-arg><value>classpath&#58;/xdi2/connector/template/mapping/mapping.xdi</value></constructor-arg>
 	</bean>
 
 	<bean name="/template" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
