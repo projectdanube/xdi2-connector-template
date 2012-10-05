@@ -35,7 +35,7 @@
 	<bean id="graph1" factory-bean="graphfactory1" factory-method="openGraph" />
 
 	<bean id="templateContributor" class="xdi2.connector.template.contributor.TemplateContributor">
-		<property name="graph" ref="graph1" />
+		<property name="tokenGraph" ref="graph1" />
 		<property name="templateApi" ref="templateApi" />
 		<property name="templateMapping" ref="templateMapping" />
 	</bean>

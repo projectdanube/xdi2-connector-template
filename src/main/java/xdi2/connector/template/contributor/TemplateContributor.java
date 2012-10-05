@@ -26,7 +26,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateContributor.class);
 
-	private Graph graph;
+	private Graph tokenGraph;
 	private TemplateApi templateApi;
 	private TemplateMapping templateMapping;
 
@@ -101,7 +101,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 				String templateFieldIdentifier = TemplateContributor.this.templateMapping.templateDataXriToTemplateFieldIdentifier(templateDataXri);
 				if (templateFieldIdentifier == null) return false;
 
-				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getGraph(), userXri);
+				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
 				JSONObject user = TemplateContributor.this.retrieveUser(executionContext, accessToken);
@@ -147,14 +147,14 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 	 * Getters and setters
 	 */
 
-	public Graph getGraph() {
+	public Graph getTokenGraph() {
 
-		return this.graph;
+		return this.tokenGraph;
 	}
 
-	public void setGraph(Graph graph) {
+	public void setTokenGraph(Graph tokenGraph) {
 
-		this.graph = graph;
+		this.tokenGraph = tokenGraph;
 	}
 
 	public TemplateApi getTemplateApi() {
