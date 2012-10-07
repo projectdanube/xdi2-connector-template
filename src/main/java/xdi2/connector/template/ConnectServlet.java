@@ -100,7 +100,7 @@ public class ConnectServlet extends HttpServlet implements HttpRequestHandler {
 
 			try {
 
-				this.getTemplateApi().startOAuth(request, response, null, userXri);
+				response.sendRedirect(this.getTemplateApi().startOAuth(request, null, userXri));
 				return;
 			} catch (Exception ex) {
 

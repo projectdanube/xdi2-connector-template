@@ -19,9 +19,10 @@ import xdi2.messaging.MessageResult;
 import xdi2.messaging.exceptions.Xdi2MessagingException;
 import xdi2.messaging.target.ExecutionContext;
 import xdi2.messaging.target.contributor.AbstractContributor;
-import xdi2.messaging.target.contributor.ContributorCall;
+import xdi2.messaging.target.contributor.ContributorXri;
 import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 
+@ContributorXri(addresses={"(https://yoursite.com)"})
 public class TemplateContributor extends AbstractContributor implements MessageEnvelopeInterceptor {
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateContributor.class);
@@ -64,7 +65,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 	 * Sub-Contributors
 	 */
 
-	@ContributorCall(addresses={"($)"})
+	@ContributorXri(addresses={"($)"})
 	private class TemplateUserContributor extends AbstractContributor {
 
 		private TemplateUserContributor() {
@@ -75,7 +76,7 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 		}
 	}
 
-	@ContributorCall(addresses={"($)"})
+	@ContributorXri(addresses={"($)"})
 	private class TemplateUserAttributeContributor extends AbstractContributor {
 
 		private TemplateUserAttributeContributor() {
