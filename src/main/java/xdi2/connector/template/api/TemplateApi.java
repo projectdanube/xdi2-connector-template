@@ -40,10 +40,10 @@ public class TemplateApi {
 		this.httpClient.getConnectionManager().shutdown();
 	}
 
-	public void startOAuth(HttpServletRequest request, HttpServletResponse response, XRI3Segment userXri) throws IOException {
+	public void startOAuth(HttpServletRequest request, HttpServletResponse response, String redirectPath, XRI3Segment userXri) throws IOException {
 
 		String clientId = this.getAppId();
-		String redirectUri = uriWithoutQuery(request.getRequestURL().toString());
+		String redirectUri = uriWithoutQuery(request.getRequestURL().toString()) + (redirectPath == null ? "" : redirectPath);
 		String scope = "email";
 		String state = userXri.toString();
 
