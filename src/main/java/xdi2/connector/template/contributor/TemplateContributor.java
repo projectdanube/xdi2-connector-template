@@ -18,12 +18,16 @@ import xdi2.messaging.MessageEnvelope;
 import xdi2.messaging.MessageResult;
 import xdi2.messaging.exceptions.Xdi2MessagingException;
 import xdi2.messaging.target.ExecutionContext;
+import xdi2.messaging.target.MessagingTarget;
+import xdi2.messaging.target.Prototype;
 import xdi2.messaging.target.contributor.AbstractContributor;
 import xdi2.messaging.target.contributor.ContributorXri;
+import xdi2.messaging.target.impl.graph.GraphMessagingTarget;
 import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
+import xdi2.messaging.target.interceptor.MessagingTargetInterceptor;
 
 @ContributorXri(addresses={"(https://yoursite.com)"})
-public class TemplateContributor extends AbstractContributor implements MessageEnvelopeInterceptor {
+public class TemplateContributor extends AbstractContributor implements MessagingTargetInterceptor, MessageEnvelopeInterceptor, Prototype<TemplateContributor> {
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateContributor.class);
 
@@ -36,6 +40,47 @@ public class TemplateContributor extends AbstractContributor implements MessageE
 		super();
 
 		this.getContributors().addContributor(new TemplateUserContributor());
+	}
+
+	/*
+	 * Prototype
+	 */
+
+	@Override
+	public TemplateContributor instanceFor(PrototypingContext prototypingContext) throws Xdi2MessagingException {
+
+		// create new contributor
+
+		TemplateContributor contributor = new TemplateContributor();
+
+		// set api and mapping
+
+		contributor.setTemplateApi(this.getTemplateApi());
+		contributor.setTemplateMapping(this.getTemplateMapping());
+
+		// done
+
+		return contributor;
+	}
+
+	/*
+	 * MessagingTargetInterceptor
+	 */
+
+	@Override
+	public void init(MessagingTarget messagingTarget) throws Exception {
+
+		// set the token graph
+
+		if (this.tokenGraph == null && messagingTarget instanceof GraphMessagingTarget) {
+
+			this.setTokenGraph(((GraphMessagingTarget) messagingTarget).getGraph());
+		}
+	}
+
+	@Override
+	public void shutdown(MessagingTarget messagingTarget) throws Exception {
+
 	}
 
 	/*

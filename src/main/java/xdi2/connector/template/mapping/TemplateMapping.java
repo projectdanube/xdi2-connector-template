@@ -5,8 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
+import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
 import xdi2.core.features.multiplicity.Multiplicity;
+import xdi2.core.impl.memory.MemoryGraphFactory;
+import xdi2.core.io.XDIReaderRegistry;
 import xdi2.core.xri3.impl.XRI3Segment;
 import xdi2.core.xri3.impl.XRI3SubSegment;
 
@@ -16,7 +19,29 @@ public class TemplateMapping {
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateMapping.class);
 
+	private static TemplateMapping instance;
+
 	private Graph mappingGraph;
+
+	public TemplateMapping() {
+
+		this.mappingGraph = MemoryGraphFactory.getInstance().openGraph();
+
+		try {
+
+			XDIReaderRegistry.getAuto().read(this.mappingGraph, TemplateMapping.class.getResourceAsStream("mapping.xdi"));
+		} catch (Exception ex) {
+
+			throw new Xdi2RuntimeException(ex.getMessage(), ex);
+		}
+	}
+
+	public static TemplateMapping getInstance() {
+
+		if (instance == null) instance = new TemplateMapping();
+
+		return instance;
+	}
 
 	/**
 	 * Converts a yoursite.com data XRI to a native YourSite field identifier.
@@ -85,12 +110,12 @@ public class TemplateMapping {
 	 */
 
 	public Graph getMappingGraph() {
-	
+
 		return this.mappingGraph;
 	}
 
 	public void setMappingGraph(Graph mappingGraph) {
-	
+
 		this.mappingGraph = mappingGraph;
 	}
 }
