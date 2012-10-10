@@ -1,5 +1,6 @@
 package xdi2.connector.template.util;
 
+import xdi2.connector.template.mapping.TemplateMapping;
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
 import xdi2.core.Literal;
@@ -12,7 +13,7 @@ public class GraphUtil {
 
 	public static String retrieveAccessToken(Graph graph, XRI3Segment userXri) {
 
-		XRI3Segment contextNodeXri = new XRI3Segment("" + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
+		XRI3Segment contextNodeXri = new XRI3Segment("" + TemplateMapping.XRI_S_YOURSITE_CONTEXT + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
 
 		ContextNode contextNode = graph.findContextNode(contextNodeXri, false);
 		if (contextNode == null) return null;
@@ -25,7 +26,7 @@ public class GraphUtil {
 
 	public static void storeAccessToken(Graph graph, XRI3Segment userXri, String accessToken) {
 
-		XRI3Segment contextNodeXri = new XRI3Segment("" + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
+		XRI3Segment contextNodeXri = new XRI3Segment("" + TemplateMapping.XRI_S_YOURSITE_CONTEXT + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
 
 		ContextNode contextNode = graph.findContextNode(contextNodeXri, true);
 
@@ -37,7 +38,7 @@ public class GraphUtil {
 
 	public static void removeAccessToken(Graph graph, XRI3Segment userXri) {
 
-		XRI3Segment contextNodeXri = new XRI3Segment("" + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
+		XRI3Segment contextNodeXri = new XRI3Segment("" + TemplateMapping.XRI_S_YOURSITE_CONTEXT + userXri + XDIMessagingConstants.XRI_S_OAUTH_TOKEN);
 
 		ContextNode contextNode = graph.findContextNode(contextNodeXri, false);
 		if (contextNode == null) return;

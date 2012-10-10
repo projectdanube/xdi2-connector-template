@@ -26,7 +26,7 @@ import xdi2.messaging.target.impl.graph.GraphMessagingTarget;
 import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 import xdi2.messaging.target.interceptor.MessagingTargetInterceptor;
 
-@ContributorXri(addresses={"(https://yoursite.com)"})
+@ContributorXri(addresses={"+(https://yoursite.com/)"})
 public class TemplateContributor extends AbstractContributor implements MessagingTargetInterceptor, MessageEnvelopeInterceptor, Prototype<TemplateContributor> {
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateContributor.class);
@@ -110,7 +110,7 @@ public class TemplateContributor extends AbstractContributor implements Messagin
 	 * Sub-Contributors
 	 */
 
-	@ContributorXri(addresses={"($)"})
+	@ContributorXri(addresses={"($$!)"})
 	private class TemplateUserContributor extends AbstractContributor {
 
 		private TemplateUserContributor() {

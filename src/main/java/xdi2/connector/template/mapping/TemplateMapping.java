@@ -15,7 +15,7 @@ import xdi2.core.xri3.impl.XRI3SubSegment;
 
 public class TemplateMapping {
 
-	public static final XRI3Segment XRI_S_YOURSITE_CONTEXT = new XRI3Segment("(https://yoursite.com)");
+	public static final XRI3Segment XRI_S_YOURSITE_CONTEXT = new XRI3Segment("+(https://yoursite.com/)");
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateMapping.class);
 

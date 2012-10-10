@@ -63,7 +63,7 @@
 		</property>
 		<property name="contributors">
 			<util:map>
-				<entry key="(https://yoursite.com)" value-ref="templateContributor" />
+				<entry key="+(https://yoursite.com/)" value-ref="templateContributor" />
 			</util:map>
 		</property>
 	</bean>
