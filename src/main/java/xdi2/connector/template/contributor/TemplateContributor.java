@@ -147,6 +147,8 @@ public class TemplateContributor extends AbstractContributor implements Messagin
 				String templateFieldIdentifier = TemplateContributor.this.templateMapping.templateDataXriToTemplateFieldIdentifier(templateDataXri);
 				if (templateFieldIdentifier == null) return false;
 
+				log.debug("templateFieldIdentifier: " + templateFieldIdentifier);
+
 				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
