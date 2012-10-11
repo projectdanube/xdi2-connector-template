@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpException;
 import org.apache.http.client.HttpClient;
@@ -28,6 +27,13 @@ public class TemplateApi {
 
 		this.appId = null;
 		this.appSecret = null;
+		this.httpClient = new DefaultHttpClient();
+	}
+
+	public TemplateApi(String appId, String appSecret) {
+
+		this.appId = appId;
+		this.appSecret = appSecret;
 		this.httpClient = new DefaultHttpClient();
 	}
 
