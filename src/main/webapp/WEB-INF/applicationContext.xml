@@ -34,10 +34,19 @@
 
 	<bean id="graph1" factory-bean="graphfactory1" factory-method="openGraph" />
 
+	<bean id="templateMappingGraphfactory" class="xdi2.core.impl.wrapped.classpath.ClasspathGraphFactory">
+		<property name="classpath" value="/xdi2/connector/template/mapping/mapping.xdi" />
+		<property name="mimeType" value="text/xdi;contexts=0;ordered=1" />
+	</bean>
+
+	<bean id="templateMappingGraph" factory-bean="templateMappingGraphfactory" factory-method="openGraph" />
+
 	<bean id="templateContributor" class="xdi2.connector.template.contributor.TemplateContributor">
 		<property name="templateApi" ref="templateApi" />
 		<property name="templateMapping">
-			<bean id="templateMapping" class="xdi2.connector.template.mapping.TemplateMapping" />
+			<bean class="xdi2.connector.template.mapping.TemplateMapping">
+				<property name="mappingGraph" ref="templateMappingGraph" />
+			</bean>
 		</property>
 	</bean>
 
@@ -67,6 +76,13 @@
 				<entry key="+(https://yoursite.com/)" value-ref="templateContributor" />
 			</util:map>
 		</property>
+	</bean>
+
+	<!-- MESSAGING TARGET at /mapping -->
+	<!-- MessagingTarget: GraphMessagingTarget -->
+
+	<bean name="/mapping" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
+		<property name="graph" ref="templateMappingGraph" />
 	</bean>
 
 </beans>
