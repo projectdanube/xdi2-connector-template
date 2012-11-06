@@ -39,6 +39,7 @@ public class TemplateContributor extends AbstractContributor implements Messagin
 
 		super();
 
+		this.getContributors().addContributor(new TemplateEnabledContributor());
 		this.getContributors().addContributor(new TemplateUserContributor());
 	}
 
@@ -109,6 +110,18 @@ public class TemplateContributor extends AbstractContributor implements Messagin
 	/*
 	 * Sub-Contributors
 	 */
+
+	@ContributorXri(addresses={"$!(+enabled)"})
+	private class TemplateEnabledContributor extends AbstractContributor {
+
+		@Override
+		public boolean getContext(XRI3Segment[] contributorXris, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+
+			messageResult.getGraph().findContextNode(contextNodeXri, true).createLiteral("1");
+
+			return true;
+		}
+	}
 
 	@ContributorXri(addresses={"($$!)"})
 	private class TemplateUserContributor extends AbstractContributor {
