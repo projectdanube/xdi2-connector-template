@@ -53,7 +53,7 @@ public class TemplateMapping {
 
 		// convert
 
-		String templateFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri((XDI3SubSegment) templateDataXri.getSubSegment(0)));
+		String templateFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(templateDataXri.getSubSegment(0)));
 
 		// done
 
@@ -89,10 +89,10 @@ public class TemplateMapping {
 
 			if (i + 1 < xdiDataDictionaryXri.getNumSubSegments()) {
 
-				buffer.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XDI3SubSegment) xdiDataDictionaryXri.getSubSegment(i))));
+				buffer.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			} else {
 
-				buffer.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XDI3SubSegment) xdiDataDictionaryXri.getSubSegment(i))));
+				buffer.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			}
 		}
 
