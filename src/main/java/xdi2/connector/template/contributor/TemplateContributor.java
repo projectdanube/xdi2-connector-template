@@ -151,16 +151,18 @@ public class TemplateContributor extends AbstractContributor implements Messagin
 
 			log.debug("templateContextXri: " + templateContextXri + ", userXri: " + userXri + ", templateDataXri: " + templateDataXri);
 
+			// parse identifiers
+
+			String templateFieldIdentifier = TemplateContributor.this.templateMapping.templateDataXriToTemplateFieldIdentifier(templateDataXri);
+			if (templateFieldIdentifier == null) return false;
+
+			log.debug("templateFieldIdentifier: " + templateFieldIdentifier);
+			
 			// retrieve the yoursite.com value
 			
 			String templateValue = null;
 
 			try {
-
-				String templateFieldIdentifier = TemplateContributor.this.templateMapping.templateDataXriToTemplateFieldIdentifier(templateDataXri);
-				if (templateFieldIdentifier == null) return false;
-
-				log.debug("templateFieldIdentifier: " + templateFieldIdentifier);
 
 				String accessToken = GraphUtil.retrieveAccessToken(TemplateContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
