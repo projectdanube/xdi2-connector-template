@@ -7,6 +7,7 @@ import xdi2.core.ContextNode;
 import xdi2.core.Graph;
 import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
+import xdi2.core.features.equivalence.Equivalence;
 import xdi2.core.features.multiplicity.Multiplicity;
 import xdi2.core.impl.memory.MemoryGraphFactory;
 import xdi2.core.io.XDIReaderRegistry;
@@ -78,7 +79,7 @@ public class TemplateMapping {
 		ContextNode templateDataDictionaryContextNode = this.mappingGraph.findContextNode(templateDataDictionaryXri, false);
 		if (templateDataDictionaryContextNode == null) return null;
 
-		ContextNode xdiDataDictionaryContextNode = Dictionary.getCanonicalContextNode(templateDataDictionaryContextNode);
+		ContextNode xdiDataDictionaryContextNode = Equivalence.getReferenceContextNode(templateDataDictionaryContextNode);
 		XDI3Segment xdiDataDictionaryXri = xdiDataDictionaryContextNode.getXri();
 
 		// convert
