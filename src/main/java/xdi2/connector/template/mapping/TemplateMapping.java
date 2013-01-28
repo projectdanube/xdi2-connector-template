@@ -16,7 +16,7 @@ import xdi2.core.xri3.impl.XDI3SubSegment;
 
 public class TemplateMapping {
 
-	public static final XDI3Segment XRI_S_YOURSITE_CONTEXT = new XDI3Segment("+(https://yoursite.com/)");
+	public static final XDI3Segment XRI_S_YOURSITE_CONTEXT = XDI3Segment.create("+(https://yoursite.com/)");
 
 	private static final Logger log = LoggerFactory.getLogger(TemplateMapping.class);
 
@@ -75,7 +75,7 @@ public class TemplateMapping {
 
 		XDI3SubSegment templateFieldXri = Dictionary.nativeIdentifierToInstanceXri(this.templateDataXriToTemplateFieldIdentifier(templateDataXri));
 
-		XDI3Segment templateDataDictionaryXri = new XDI3Segment("" + XRI_S_YOURSITE_CONTEXT + Dictionary.instanceXriToDictionaryXri(templateFieldXri));
+		XDI3Segment templateDataDictionaryXri = XDI3Segment.create("" + XRI_S_YOURSITE_CONTEXT + Dictionary.instanceXriToDictionaryXri(templateFieldXri));
 		ContextNode templateDataDictionaryContextNode = this.mappingGraph.findContextNode(templateDataDictionaryXri, false);
 		if (templateDataDictionaryContextNode == null) return null;
 
@@ -97,7 +97,7 @@ public class TemplateMapping {
 			}
 		}
 
-		XDI3Segment xdiDataXri = new XDI3Segment(buffer.toString());
+		XDI3Segment xdiDataXri = XDI3Segment.create(buffer.toString());
 
 		// done
 
